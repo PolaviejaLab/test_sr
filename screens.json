@@ -1,0 +1,6 @@
+{
+  "screens": [
+    { "task": "SR", "name": "Page 1", "template": "Page1.html" },
+    { "task": "SR", "name": "Questions", "template": "Questions.html" }
+  ]
+}

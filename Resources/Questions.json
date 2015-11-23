@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "question": "How long was the audio fragment that you just listened to (in seconds)?",
+    "unit": ["second", "seconds"],
+    "average": { "mean": 20, "variance": 2 },
+    "answer": 20,
+    "timeout": 30
+  }, {
+    "id": 2,
+    "question": "How long is this room (in meters)? From the wall on your right (the one with the door), to the wall on your left.",
+    "average": "Average answer of the previous 10 participants: XXX meters.",
+    "unit": ["meter", "meters"],
+    "average": { "mean": 6, "variance": 6 },
+    "answer": 6,
+    "timeout": 30
+  }, {
+    "id": 3,
+    "question": "How many dots are in the picture?",
+    "average": "Average answer of the previous 10 participants: XXX dots.",
+    "unit": ["dot", "dots"],
+    "average": { "mean": 40, "variance": 40 },
+    "answer": 40,
+    "timeout": 30
+  }, {
+    "id": 4,
+    "question": "What is the weight of the keyboard you are using (in grams)?",
+    "average": "Average answer of the previous 10 participants: XXX grams.",
+    "unit": ["gram", "grams"],
+    "average": { "mean": 100, "variance": 0 },
+    "answer": 100,
+    "timeout": 30
+  }, {
+    "id": 5,
+    "question": "What is the height difference between the Eiffel and Pisa Tower (in meters)?",
+    "average": "Average answer of the previous 10 participants: XXX meters.",
+    "unit": ["meter", "meters"],
+    "average": { "mean": 267.33, "variance": 0 },
+    "answer": 267.33,
+    "timeout": 30
+  }, {
+    "id": 6,
+    "question": "How many people died in car accidents in Spain in 2014 in intercity roads?",
+    "average": "Average answer of the previous 10 participants: XXX people.",
+    "unit": ["person", "people"],
+    "average": { "mean": 1131, "variance": 0 },
+    "answer": 1131,
+    "timeout": 30
+  }, {
+    "id": 7,
+    "question": "Length of the border between France and Spain (in km)",
+    "average": "Average answer of the previous 10 participants: XXX.",
+    "unit": ["km", "km"],
+    "average": { "mean": 656, "variance": 0 },
+    "answer": 656,
+    "timeout": 30
+  }, {
+    "id": 8,
+    "question": "Difference in number of births in Portugal between 2014 and 2004.",
+    "average": "Average answer of the previous 10 participants: XXX.",
+    "unit": ["person", "people"],
+    "average": { "mean": 26931, "variance": 0 },
+    "answer": 26931,
+    "timeout": 30
+  }
+]
