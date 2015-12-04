@@ -1,6 +1,6 @@
 {
   "screens": [
-    { "task": "SR", "name": "Page 1", "template": "Page1.html" },
-    { "task": "SR", "name": "Questions", "template": "Questions.html" }
+    { "task": "SR", "name": "Instructions", "template": "Instructions.html" },
+    { "task": "SR", "name": "Sentence Individual", "template": "Questions.html" }
   ]
 }

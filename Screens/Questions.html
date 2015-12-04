@@ -1,4 +1,4 @@
-<div id="SI" ng-controller="SI">
+<div id="SI" ng-controller="SR">
   <div id="count_down" ng-show="get_timer_value() &amp;&amp; get_timer_value() != 0">
     TIME LEFT<br> <b><span id="count_down_value">{{ get_timer_value() }}</span>
       <span id="count_down_unit">sec</span>
@@ -9,119 +9,64 @@
 
   <div id="content" class="SI TextScreen">
 
-    <div ng-show="questions[0].type == 'intro'">
-      <h2>Question {{ questions[0].question.id }}</h2>
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- WAITING FOR INDIVIDUAL ANSWERS -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-        <div ng-if="questions[0].question.id == 1">
-          <p>Listen to the following audio fragment.<p>
+    <div ng-show="questions[0].type == 'wait_for_individual'">
+      <h2>Sentence {{ questions[0].id }}</h2>
 
-          <audio id="fragment"
-              src="../individual/Tasks/SI/Resources/AudioFragment.mp3">
-            Your browser does not support HTML5 audio.
-          </audio>
+      <p>Once you are all in front of the computer you can press NEXT to write the sentece as a GROUP.</p>
+      <p/>
+      <p>You can use underscores "___" to fill the parts of the sentence that you did not undersatnd or do not remember. 
 
-          <button id="play" class="btn" type="button" onclick="play()">Click to play</button>
-        </div>
-
-      <p>Click next to continue to question {{ questions[0].question.id }}. You will have {{ questions[0].question.timeout }} seconds to answer the question. After answering the question, press SUBMIT.</p>
     </div>
 
-    <!-- ~~~~~~~~~~~~~ -->
-    <!-- INITIAL GUESS -->
-    <!-- ~~~~~~~~~~~~~ -->
+    <!-- ~~~~~~~~~~~~~~~~ -->
+    <!-- WRITING SENTENCE -->
+    <!-- ~~~~~~~~~~~~~~~~ -->
 
-    <div ng-show="questions[0].type == 'initial_guess' &amp;&amp; get_timer_value() > 0">
-      <h2>Question {{ questions[0].question.id }}</h2>
+    <div ng-show="questions[0].type == 'write_sentence' &amp;&amp; get_timer_value() > 0">
+      <h2>Sentence {{ questions[0].id }}</h2>
 
-      <img ng-if="questions[0].question.id == 3"
-          ng-src="{{ resources + 'Resources/Dots.png' }}" style="width: 500px; margin-bottom: 20px; margin-top: 15px;">
-
-      <p>{{ questions[0].question.question }}</p>
+      <p>Write the sentence you have listened in the box below.</p>
 
       <input type="text" ng-keypress="($event.which == 13)?next():0"
-        ng-model="responses[ prefix + questions[0].question.id + '.' + questions[0].type ]" style="width: 60px">
-      <span ng-if="responses[ prefix + questions[0].question.id ] == 1">{{ questions[0].question.unit[0] }}</span>
-      <span ng-if="responses[ prefix + questions[0].question.id ] != 1">{{ questions[0].question.unit[1] }}</span>
+        ng-model="responses[ prefix + questions[0].id + '.' + questions[0].type ]" style="width: 1200px">
 
       <button class="submit" ng-click="next()" ng-class="{enabled: is_next_allowed()}">Submit</button>
     </div>
 
 
     <div ng-show="questions[0].type == 'initial_guess' &amp;&amp; get_timer_value() == 0">
-      <h2>Question {{ questions[0].question.id }}</h2>
+      <h2>Sentence {{ questions[0].id }}</h2>
 
-      <p>You were not fast enough! Please respond within {{ questions[0].question.timeout }} seconds.</p>
+      <p>You were not fast enough! Please respond within {{ questions[0].timeout }} seconds.</p>
     </div>
 
 
-    <!-- ~~~~~~~~~~~~~ -->
-    <!-- AFTER AVERAGE -->
-    <!-- ~~~~~~~~~~~~~ -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- GO BACK TO INDIVIDUAL COMPUTERS -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-    <div ng-show="questions[0].type == 'after_average' &amp;&amp; get_timer_value() > 0">
-      <h2>Question {{ questions[0].question.id}}</h2>
+    <div ng-show="questions[0].type == 'go_to_individual'">
+      <h2>Sentence {{ questions[0].id}}</h2>
 
-      <p>Average answer of the previous 10 participants: <b>{{ get_average() }}</b></p>
+      <div ng-if="questions[0].id < 3">
+        <p>Please, go back to your INDIVIDUAL computer to listen to the next sentence.</p>
 
-      <p>{{ questions[0].question.question }}</p>
+      </div>
 
-      <input type="text" ng-keypress="($event.which == 13)?next():0"
-        ng-model="responses[ prefix + questions[0].question.id + '.' + questions[0].type ]" style="width: 60px">
-      <span ng-if="responses[ prefix + questions[0].question.id ] == 1">{{ questions[0].question.unit[0] }}</span>
-      <span ng-if="responses[ prefix + questions[0].question.id ] != 1">{{ questions[0].question.unit[1] }}</span>
+      <div ng-if="questions[0].id == 3">
+        <p>Please, go to the GROUP area, take the tablet and sit on the chair with your number.</p>
+        <p/>
+        <p>Unlock the tablet and read the instructions to start the next TASK.</p>
 
-      <button class="submit" ng-click="next()" ng-class="{enabled: is_next_allowed()}">Submit</button>
-    </div>
+      </div>
 
-    <div ng-show="questions[0].type == 'after_average' &amp;&amp; get_timer_value() == 0">
-      <h2>Question {{ questions[0].question.id }}</h2>
-
-      <p>You were not fast enough! Please respond within {{ questions[0].question.timeout }} seconds.</p>
     </div>
 
     <!--<button ng-click="reset_all_timers()">RESET ALL TIMERS</button>-->
-
-    <script>
-      function get_scope()
-      {
-        var element = angular.element(document.getElementById("SI"));
-        return element.scope();
-      }
-
-      function play() {
-        var audio = document.getElementById('fragment');
-        var button = document.getElementById('play');
-
-        audio.onplaying = function() {
-          button.innerHTML = "Playing...";
-
-          var scope = get_scope();
-          scope.$apply(function() {
-            scope.responses['SI.1.playing'] = true;
-
-            var key = 'SI.1.play_count';
-
-            if(key in scope.responses) {
-              scope.responses[key] =
-                scope.responses[key] + 1;
-            } else {
-              scope.responses[key] = 1;
-            }
-          });
-        }
-
-        audio.onended = function() {
-          button.innerHTML = "Click to play";
-
-          var scope = get_scope();
-          scope.$apply(function() {
-            scope.responses['SI.1.playing'] = false;
-          });
-        }
-
-        audio.play();
-      }
-    </script>
   </div>
 
   <div id="footer" ng-include="'templates/buttons.html'"></div>
