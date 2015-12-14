@@ -13,6 +13,21 @@
  * individually. Then they move to the group computer
  * and give a joint estimate of the sentence contents.
  * 
+ * 
+ * Screens
+ * -------
+ * 
+ *  Central              Message            Peripheral
+ *  -=-=-=-              -=-=-=-            -=-=--=-=- 
+ *  Go to individual computer               Listen to sentence
+ *                       SRc/Waiting -->
+ *                                          Write sentence
+ *                       <-- SRp/Complete
+ *  Wait for group                          Wait for group
+ *                       SRc/Started -->
+ *  Write sentence                          Go to group computer  
+ *                       SRc/Complete -->  
+ *
  *
  * Communication
  * -------------
