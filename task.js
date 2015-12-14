@@ -1,4 +1,54 @@
-
+/**
+ * Sentence reconstruction test (SR)
+ * 
+ * See e.g. Clement, 2013
+ * 
+ * 
+ * Overview
+ * --------
+ * 
+ * In the sentence reconstruction task an audio fragment
+ * with noise is presented to individual participants
+ * and they estimate the content of the sentence
+ * individually. Then they move to the group computer
+ * and give a joint estimate of the sentence contents.
+ * 
+ *
+ * Communication
+ * -------------
+ * 
+ * Communication between the central and peripheral
+ * devices will occur over a messaging channel named
+ * after the group. For example if the ParticipantID is
+ * MyGroup_MyName_T1, then MyGroup will be the channel.
+ * 
+ * JSON messages are exchanged to coordinate the devices.  
+ * Messages must have the following field:
+ * 
+ *   task: "SRc" for central or "SRp" for peripheral
+ *   withinGroupId: "" for central or "T1" .. "T3" for peripheral
+ *   trial: Number of the current trial
+ *   status: See below
+ * 
+ * The status field can have the following values:
+ *   "complete": Central computer signals start of next trial
+ *               Peripheral devices signal completion of trial
+ *   "waiting": Central computer signals it is ready
+ *              Peripheral devices are waiting for participant
+ *
+ * 
+ * Storage
+ * -------
+ * 
+ * The trial results will be stored under key "SR.[TrialNr]".
+ * 
+ * In case of the central computer, the list of devices that
+ * have finished the trial is available under key 
+ * "SR.Central.[TrialNr].Ready".
+ * 
+ * In case of the peripheral devices, whether the answer is final
+ * will be recorded under "SR.Peripheral.[TrialNr].IsFinal".* 
+ */
 experimentFrontendControllers.controller('SR', ['$scope', '$http', '$cookies', '$controller', '$interval',
   function($scope, $http, $cookies, $controller, $interval)
   {
@@ -13,11 +63,7 @@ experimentFrontendControllers.controller('SR', ['$scope', '$http', '$cookies', '
     $controller('PaginatedScreen', {$scope: $scope});
     $scope.set_number_of_items_per_page(1);
 
-
     var participantId = 1;
-
-    // $scope.respones['ParticipantID']
-
 
     // Build a list of trials
     for(var trialId = 1; trialId < 4; trialId++)
@@ -45,6 +91,7 @@ experimentFrontendControllers.controller('SR', ['$scope', '$http', '$cookies', '
       if(!($scope.prefix + trialId + '.play_count' in $scope.responses))
         $scope.responses[$scope.prefix + trialId + '.play_count'] = 0;
     }
+
     $scope.slice();    
 
 
